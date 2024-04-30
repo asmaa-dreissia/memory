@@ -5,17 +5,26 @@ import Button from './components/Button/Button';
 import Card from './components/Card/Card';
 
 const cardImages = [
-  '/images/image1.png',
-  '/images/image2.jpg',
-  '/images/image3.jpg',
-  '/images/image4.jpg',
-  '/images/image5.jpg',
-  '/images/image6.jpg',
-  '/images/image7.jpg',
-  '/images/image8.jpg',
-  '/images/image9.jpg',
-  '/images/image10.jpg',
+  require('../src/images/stitche.jpg'),
+  require('../src/images/stitche.jpg'),
+  require('../src/images/angel.jpg'),
+  require('../src/images/angel.jpg'),
+  require('../src/images/leroy.jpg'),
+  require('../src/images/leroy.jpg'),
+  require('../src/images/marvel.jpg'),
+  require('../src/images/marvel.jpg'),
+  require('../src/images/lilo.jpg'),
+  require('../src/images/lilo.jpg'),
 ];
+
+// Fonction pour mélanger un tableau
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -25,8 +34,8 @@ function App() {
 
   // Fonction pour initialiser les cartes
   const initializeCards = () => {
-    const shuffledImages = [...cardImages, ...cardImages].sort(() => Math.random() - 0.5);
-    const initialCards = shuffledImages.map((image, index) => ({
+    const shuffledImages = shuffleArray([...cardImages, ...cardImages]);
+    const initialCards = shuffledImages.slice(0, 10).map((image, index) => ({
       id: index,
       image,
       flipped: false,
@@ -57,20 +66,29 @@ function App() {
     setFlippedCards([...flippedCards, id]);
   };
 
-  // Effet pour vérifier si les cartes retournées correspondent
+    // Effet pour vérifier si les cartes retournées correspondent
   useEffect(() => {
     if (flippedCards.length === 2) {
       const [firstCard, secondCard] = flippedCards;
-      const newCards = cards.map((card) =>
-        card.id === firstCard || card.id === secondCard
-          ? { ...card, matched: true }
-          : card
-      );
-      setCards(newCards);
-      setMatchedCards([...matchedCards, firstCard, secondCard]);
+      if (cards[firstCard].image === cards[secondCard].image) {
+        // Si les deux cartes sont identiques, marquez-les comme correspondantes
+        const newMatchedCards = [...matchedCards, firstCard, secondCard];
+        setMatchedCards(newMatchedCards);
+      } else {
+        // Si les deux cartes ne sont pas identiques, retournez-les après un court délai
+        const timeout = setTimeout(() => {
+          const newCards = cards.map((card) =>
+            flippedCards.includes(card.id) ? { ...card, flipped: false } : card
+          );
+          setCards(newCards);
+          setFlippedCards([]);
+        }, 1000);
+        return () => clearTimeout(timeout);
+      }
       setFlippedCards([]);
     }
   }, [flippedCards]);
+
 
   // Effet pour retourner les cartes après un court délai
   useEffect(() => {
@@ -80,24 +98,32 @@ function App() {
       );
       setCards(newCards);
       setFlippedCards([]);
-    }, 1000);
+    }, 2000);
     return () => clearTimeout(timeout);
   }, [flippedCards]);
 
-    // Génération des cartes
+  // Génération des cartes
   const renderCards = () => {
-    return cardImages.slice(0, 10).map((image, index) => (
+    return cards.map((card) => (
       <Card
-        key={index}
-        id={index}
-        image={image}
-        flipped={flippedCards.includes(index) || matchedCards.includes(index)}
-        matched={matchedCards.includes(index)}
-        onClick={() => flipCard(index)}
+        key={card.id}
+        id={card.id}
+        image={card.image}
+        flipped={flippedCards.includes(card.id) || matchedCards.includes(card.id)}
+        matched={matchedCards.includes(card.id)}
+        onClick={() => flipCard(card.id)}
       />
     ));
   };
 
+  // Gestion du mélange des cartes
+  const handleShuffle = () => {
+    const shuffledCards = shuffleArray(cards);
+    setCards(shuffledCards);
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setVictory(false);
+  };
 
   return (
     <div className="App">
@@ -105,6 +131,7 @@ function App() {
       <div className="board">{renderCards()}</div>
       {victory && <div className="message">Félicitations ! Vous avez gagné !</div>}
       <Button onClick={initializeCards}>Nouvelle partie</Button>
+      <Button onClick={handleShuffle}>Mélanger</Button>
     </div>
   );
 }

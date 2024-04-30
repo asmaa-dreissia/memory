@@ -1,49 +1,50 @@
 
-  .board {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* Pour espacer également les cartes horizontalement */
-  }
-  
-  .card {
-    width: calc(20% - 10px); /* Calcule la largeur pour qu'il y ait cinq cartes par ligne avec un espace de 5px entre chacune */
-    height: 150px;
-    margin-bottom: 10px; /* Espace entre les lignes de cartes */
-    perspective: 1000px;
-    cursor: pointer;
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Pour espacer également les cartes horizontalement */
+}
 
-  }
-  
-  .card-inner {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s;
-    transform-style: preserve-3d;
-  }
-  
-  .card.flipped .card-inner {
-    transform: rotateY(180deg);
-  }
-  
-  .card-front,
-  .card-back {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    backface-visibility: hidden;
-  }
-  
-  .card-front {
-    background-color: #7c1b1b; /* Couleur de fond de la face avant */
-  }
-  
-  .card-back {
-    transform: rotateY(180deg);
-  }
-  
-  .card-back img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Assure que l'image couvre toute la surface de la carte */
-  }
-  
+.card:hover{
+  transform: scale(1.05);
+}
+
+.card {
+  width: calc(20% - 10px); /* Calcule la largeur pour qu'il y ait cinq cartes par ligne avec un espace de 5px entre chacune */
+  height: 150px;
+  margin-bottom: 10px; /* Espace entre les lignes de cartes */
+  perspective: 1000px;
+  cursor: pointer;
+}
+.card-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.card-front {
+  background-color: #3c5965; /* Couleur de fond de la face avant */
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Assure que l'image couvre toute la surface de la carte */
+}
