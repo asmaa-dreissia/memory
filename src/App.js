@@ -32,15 +32,15 @@ function App() {
   const [matchedCards, setMatchedCards] = useState([]);
   const [victory, setVictory] = useState(false);
 
-  // Fonction pour initialiser les cartes
+    // Fonction pour initialiser les cartes
   const initializeCards = () => {
-    const shuffledImages = shuffleArray([...cardImages, ...cardImages]);
-    const initialCards = shuffledImages.slice(0, 10).map((image, index) => ({
+    const shuffledImages = shuffleArray([...cardImages]); // Ne mélangez qu'une seule fois les images de cartes
+    const initialCards = shuffledImages.map((image, index) => ({
       id: index,
       image,
       flipped: false,
       matched: false,
-    }));
+    })).slice(0, 10); // Ne prenez que les 10 premières cartes
     setCards(initialCards);
     setFlippedCards([]);
     setMatchedCards([]);
@@ -129,7 +129,7 @@ function App() {
     <div className="App">
       <Title />
       <div className="board">{renderCards()}</div>
-      {victory && <div className="message">Félicitations ! Vous avez gagné !</div>}
+      {victory && <div className="messageG">Félicitations ! Vous avez gagné !</div>}
       <Button onClick={initializeCards}>Nouvelle partie</Button>
       <Button onClick={handleShuffle}>Mélanger</Button>
     </div>

@@ -5,8 +5,10 @@
   }
   
   .title h1 {
-    font-size: 24px;
-    color: #333;
+    font-size: 30px; /* Augmente la taille de la police */
+    color: #2920a8; /* Change la couleur du texte */
+    font-style: italic; /* Rend le texte en italique */
+    text-shadow: 3px 3px 4px rgb(79, 79, 113);
   }
 
 .button{
@@ -18,4 +20,15 @@
   font-weight: bold;
   box-shadow: 3px 3px 4px rgb(9, 43, 117);
 }
-  
+
+.messageG {
+  background-color: #4caf50; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+  padding: 10px; /* Espace intérieur */
+  border-radius: 5px; /* Coins arrondis */
+  font-size: 18px; /* Taille de la police */
+  text-align: center; /* Centrage du texte */
+  margin-bottom: 15px; /* Marge en haut */
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
