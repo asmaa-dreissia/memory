@@ -22,14 +22,29 @@
   margin-left: 10px;
 }
 
-.messageG {
-  background-color: #4caf50; /* Couleur de fond */
-  color: white; /* Couleur du texte */
+.messageG , .messageF{
+  background-color: #a4dea6; /* Couleur de fond */
   padding: 10px; /* Espace intérieur */
   border-radius: 5px; /* Coins arrondis */
   font-size: 18px; /* Taille de la police */
   text-align: center; /* Centrage du texte */
   margin-bottom: 15px; /* Marge en haut */
-
+  margin-left: 50px;
+  margin-right: 50px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  
+}
+
+.timer {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.messageG {
+  color: red;
+}
+
+.messageF {
+  color: green;
 }

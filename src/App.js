@@ -31,8 +31,31 @@ function App() {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
   const [victory, setVictory] = useState(false);
+  const [showDefeatMessage, setShowDefeatMessage] = useState(false); // État pour afficher le message de défaite
+  const [timeLeft, setTimeLeft] = useState(60); // Temps initial en secondes
 
-    // Fonction pour initialiser les cartes
+  // Effet pour initialiser les cartes
+  useEffect(() => {
+    initializeCards();
+    startTimer();
+  }, []);
+
+    // Fonction pour démarrer le minuteur
+  const startTimer = () => {
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime > 0) {
+          return prevTime - 1;
+        } else {
+          clearInterval(timer);
+          setShowDefeatMessage(true); // Affiche le message de défaite
+          return 0; // Arrête le minuteur à 0
+        }
+      });
+    }, 1000); // Met à jour le temps toutes les secondes
+  };
+
+  // Fonction pour initialiser les cartes
   const initializeCards = () => {
     const shuffledImages = shuffleArray([...cardImages]); // Ne mélangez qu'une seule fois les images de cartes
     const initialCards = shuffledImages.map((image, index) => ({
@@ -66,7 +89,7 @@ function App() {
     setFlippedCards([...flippedCards, id]);
   };
 
-    // Effet pour vérifier si les cartes retournées correspondent
+  // Effet pour vérifier si les cartes retournées correspondent
   useEffect(() => {
     if (flippedCards.length === 2) {
       const [firstCard, secondCard] = flippedCards;
@@ -123,13 +146,18 @@ function App() {
     setFlippedCards([]);
     setMatchedCards([]);
     setVictory(false);
+    setShowDefeatMessage(false); // Réinitialise le message de défaite
+    setTimeLeft(60); // Réinitialise le temps restant
+    startTimer(); // Redémarre le minuteur
   };
 
   return (
     <div className="App">
       <Title />
+      <div className="timer">{timeLeft} secondes restantes</div>
       <div className="board">{renderCards()}</div>
-      {victory && <div className="messageG">Félicitations ! Vous avez gagné !</div>}
+      {victory && <div className="messageF">Félicitations ! Vous avez gagné !</div>}
+      {showDefeatMessage && <div className="messageG">Désolé, vous avez perdu !</div>}
       <Button onClick={initializeCards}>Nouvelle partie</Button>
       <Button onClick={handleShuffle}>Mélanger</Button>
     </div>
