@@ -16,6 +16,7 @@
   margin-bottom: 10px; /* Espace entre les lignes de cartes */
   perspective: 1000px;
   cursor: pointer;
+  box-shadow: 3px 3px 8px rgb(20, 14, 104);
 }
 .card-inner {
   width: 100%;

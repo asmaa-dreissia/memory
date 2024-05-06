@@ -40,7 +40,7 @@ function App() {
     startTimer();
   }, []);
 
-    // Fonction pour démarrer le minuteur
+  // Fonction pour démarrer le minuteur
   const startTimer = () => {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -54,8 +54,9 @@ function App() {
       });
     }, 1000); // Met à jour le temps toutes les secondes
   };
-
-  // Fonction pour initialiser les cartes
+  
+  
+  // Fonction pour initialiser les cartes et redémarrer le chrono
   const initializeCards = () => {
     const shuffledImages = shuffleArray([...cardImages]); // Ne mélangez qu'une seule fois les images de cartes
     const initialCards = shuffledImages.map((image, index) => ({
@@ -68,6 +69,9 @@ function App() {
     setFlippedCards([]);
     setMatchedCards([]);
     setVictory(false);
+    setShowDefeatMessage(false); // Réinitialise le message de défaite
+    setTimeLeft(60); // Réinitialise le temps restant
+    startTimer(); // Redémarre le minuteur
   };
 
   // Effet pour vérifier si toutes les cartes ont été retournées
@@ -77,8 +81,13 @@ function App() {
     }
   }, [matchedCards]);
 
-  // Fonction pour retourner une carte
+    // Fonction pour retourner une carte
   const flipCard = (id) => {
+    // Vérifier si le temps est écoulé
+    if (timeLeft === 0) {
+      return;
+    }
+    
     if (flippedCards.length === 2) {
       return;
     }
@@ -88,6 +97,7 @@ function App() {
     setCards(newCards);
     setFlippedCards([...flippedCards, id]);
   };
+
 
   // Effet pour vérifier si les cartes retournées correspondent
   useEffect(() => {
@@ -165,3 +175,4 @@ function App() {
 }
 
 export default App;
+  
