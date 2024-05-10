@@ -70,7 +70,7 @@ function App() {
     setMatchedCards([]);
     setVictory(false);
     setShowDefeatMessage(false); // Réinitialise le message de défaite
-    setTimeLeft(60); // Réinitialise le temps restant
+    setTimeLeft(90); // Réinitialise le temps restant
     startTimer(); // Redémarre le minuteur
   };
 
